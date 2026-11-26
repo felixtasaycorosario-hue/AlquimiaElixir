@@ -82,6 +82,12 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 .dots{display:flex;gap:4px}
 .dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--line)}
 .hide{display:none!important}
+.promo{display:block;text-decoration:none;background:#1c1714;color:#f4f1ec;text-align:center;font-size:.86rem;letter-spacing:.04em;
+  margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));
+  padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.promo b{font-weight:500;color:#ff8a98;letter-spacing:.08em}
+.promo u{text-underline-offset:3px}
+.promo:hover u{color:#ff8a98}
 .catlinks{display:flex;gap:6px;flex-wrap:wrap}
 .catlinks a{text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.86rem;transition:border-color .2s,color .2s}
 .catlinks a:hover{border-color:var(--accent);color:var(--accent)}
@@ -160,6 +166,7 @@ footer a:hover{color:var(--accent)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
+<a class="promo" id="promo" href="black-alquimia.html"><b>BLACK ALQUIMIA</b> · 15% OFF en toda la colección, solo 26 y 27 de noviembre · <u>Ver la promo</u></a>
 <nav><div class="wrap">
   <a class="logo" href="#inicio" style="text-decoration:none">ALQUIMIA ELIXIR</a>
   <div class="navlinks"><a href="#coleccion" id="navCol">Colección</a><a href="#pedido">Cómo pedir</a><a href="#contacto">Contacto</a></div>
@@ -425,4 +432,6 @@ $("copy").onclick=()=>{const t=orderText();
 };
 let tt;function toast(m){$("toast").textContent=m;$("toast").classList.add("on");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.remove("on"),2600)}
 renderCart();
+/* la franja de la promo desaparece sola cuando termina */
+if(Date.now()>Date.parse("2026-11-27T23:59:59-05:00"))$("promo").hidden=true;
 </script>
