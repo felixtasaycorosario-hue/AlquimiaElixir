@@ -136,6 +136,11 @@ footer a:hover{color:var(--accent)}
 .empty{color:var(--muted);padding-block:20px}
 .toast{position:fixed;z-index:40;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;transition:.3s;background:var(--fg);color:var(--bg);padding:10px 20px;font-size:.88rem;pointer-events:none;max-width:calc(100% - 32px)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+.wafab{position:fixed;z-index:15;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:10px;background:#25d366;color:#fff;text-decoration:none;border-radius:999px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.22);transition:transform .2s,padding .2s}
+.wafab:hover{transform:translateY(-2px)}
+.wafab svg{width:30px;height:30px;flex:none;fill:#fff}
+.wafab span{font-size:.9rem;font-weight:500;padding-right:6px;white-space:nowrap}
+@media (max-width:600px){.wafab span{display:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -215,6 +220,10 @@ footer a:hover{color:var(--accent)}
   <p class="note">Si WhatsApp no se abre, copia el pedido y envíalo al 933 682 846.</p>
 </aside>
 <div class="toast" id="toast"></div>
+<a class="wafab" href="https://wa.me/51933682846?text=Hola%20Alquimia%20Elixir%2C%20quiero%20informaci%C3%B3n%20sobre%20la%20promo%20Black%20Alquimia%2015%25%20OFF" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 933 682 846">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4.1-.6-5.9-1.6l-.4-.3-3.8 1.2 1.2-3.7-.3-.4c-1.2-1.8-1.8-3.8-1.8-5.9C5 9.9 10 5.2 16 5.2s11 4.7 11 10.6-5 10.6-11 10.6zm6-7.9c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5.1.8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 2-.8 2.2-1.6.3-.8.3-1.4.2-1.6-.1-.1-.3-.2-.6-.3z"/></svg>
+  <span>¿Dudas? Escríbenos</span>
+</a>
 
 <script>
 const OFF=15;
