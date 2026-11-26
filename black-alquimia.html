@@ -107,8 +107,23 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 .cond h2{font-size:1.9rem}
 .cond ul{margin:0;padding-left:1.1em;color:var(--muted);display:flex;flex-direction:column;gap:6px;max-width:62ch}
 @media (max-width:700px){.cond{grid-template-columns:1fr;gap:14px}}
-.soon{border-top:1px solid var(--line);padding-block:36px;text-align:center}
-.soon p{font-family:var(--script);font-size:clamp(2.2rem,6vw,3.2rem);line-height:1.1;margin:6px 0 0}
+/* gráfica Summer: cielo de atardecer, sol que se hunde en el mar, joyas marinas sobre el agua (look fijo en ambos temas) */
+.summer{margin-block:8px 44px;position:relative;overflow:hidden;text-align:center;isolation:isolate}
+.sky{position:relative;padding:44px 20px 76px;background:linear-gradient(180deg,#fbe8cf 0%,#f7cfa6 55%,#f1b483 100%)}
+.sun{--s:clamp(180px,38vw,270px);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--s) * -.42);width:var(--s);height:var(--s);border-radius:50%;
+  background:radial-gradient(circle at 50% 38%,#ffd884,#f5a24f 58%,#e5793a);box-shadow:0 0 90px 20px rgba(255,186,110,.55)}
+.sky > :not(.sun){position:relative;z-index:1}
+.summer .eyebrow{color:#7a4a2a}
+.summer .word{font-family:var(--script);font-size:clamp(5rem,17vw,10rem);line-height:.95;margin:6px 0 0;color:#fffaf2;text-shadow:0 2px 22px rgba(170,85,30,.4)}
+.summer h2{font-family:var(--display);color:#5a321c;font-size:clamp(1.5rem,3.6vw,2.3rem);margin-top:2px}
+.sea{position:relative;z-index:2;background:linear-gradient(180deg,#6fb0ae,#3d8688);padding:34px 20px 42px;color:#eef7f5}
+.sea .wave{position:absolute;left:0;top:-29px;width:100%;height:30px;display:block}
+.shells{display:flex;justify-content:center;gap:clamp(12px,3vw,28px)}
+.shells figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.8rem;letter-spacing:.06em}
+.shells img{width:clamp(80px,19vw,132px);aspect-ratio:1;max-width:100%;object-fit:cover;border-radius:50%;border:3px solid #fdf3e6;box-shadow:0 8px 22px rgba(0,40,40,.28)}
+.sea p{margin:20px auto 0;max-width:42ch}
+.cta2{display:inline-block;margin-top:18px;background:#fdf3e6;color:#2c5b5c;text-decoration:none;padding:12px 24px;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;transition:background .2s,color .2s}
+.cta2:hover{background:#e5793a;color:#fff}
 footer{border-top:1px solid var(--line);padding-block:28px 44px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.88rem;color:var(--muted)}
 footer a{text-decoration:none;border-bottom:1px solid var(--line)}
 footer a:hover{color:var(--accent)}
@@ -196,9 +211,23 @@ footer a:hover{color:var(--accent)}
     </ul>
   </section>
 
-  <section class="soon">
-    <p class="eyebrow">Muy pronto</p>
-    <p>Nueva Colección Verano</p>
+  <section class="summer" aria-label="Muy pronto: Nueva Colección Verano">
+    <div class="sky">
+      <div class="sun" aria-hidden="true"></div>
+      <p class="eyebrow">Muy pronto</p>
+      <p class="word">Summer</p>
+      <h2>Nueva Colección Verano</h2>
+    </div>
+    <div class="sea">
+      <svg class="wave" viewBox="0 0 1200 30" preserveAspectRatio="none" aria-hidden="true"><path fill="#9ccbc5" fill-opacity=".75" d="M0 16 C150 2 300 2 450 14 S750 30 900 14 S1100 0 1200 12 V30 H0Z"/><path fill="#6fb0ae" d="M0 22 C200 10 350 12 520 22 S850 32 1000 20 S1150 14 1200 20 V30 H0Z"/></svg>
+      <div class="shells">
+        <figure><img src="img/p17.jpg" alt="Arete Caracol"><figcaption>Caracol</figcaption></figure>
+        <figure><img src="img/p20.jpg" alt="Arete Estrella"><figcaption>Estrella</figcaption></figure>
+        <figure><img src="img/p15.jpg" alt="Arete Mar"><figcaption>Mar</figcaption></figure>
+      </div>
+      <p>Conchas, estrellas de mar y dorado para los días de sol. Sé la primera en conocerla.</p>
+      <a class="cta2" href="https://wa.me/51933682846?text=Hola%20Alquimia%20Elixir%2C%20quiero%20que%20me%20avisen%20cuando%20llegue%20la%20Colecci%C3%B3n%20Verano" target="_blank" rel="noopener">Avísame cuando llegue</a>
+    </div>
   </section>
 
   <footer>
