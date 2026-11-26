@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alquimia Elixir</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Layout: galería abierta sobre papel de arcilla; foto de anillos en portada, catálogo filtrable en rejilla, bolsa lateral que arma el pedido por WhatsApp. */
+:root{
+  --bg:#efe7dc; --surface:#e6dccd; --fg:#3a2e25; --muted:#7d6b5c; --line:#cbbba7;
+  --accent:#a0521f; --sage:#7b8466; --soldout:#8c3b2a;
+  --display:"Italiana","Didot",Georgia,serif;
+  --body:"Jost","Avenir Next","Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#211a15;--surface:#2c231c;--fg:#ece2d5;--muted:#a8978a;--line:#4a3d33;--accent:#d88a55;--sage:#a3ad8b;--soldout:#e08a72;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#211a15;--surface:#2c231c;--fg:#ece2d5;--muted:#a8978a;--line:#4a3d33;--accent:#d88a55;--sage:#a3ad8b;--soldout:#e08a72;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1160px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.01em}
+.eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:400;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+img{display:block;max-width:100%}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font-family:var(--display);font-size:1.45rem;letter-spacing:.14em;white-space:nowrap}
+.navlinks{display:flex;gap:24px;font-size:.85rem;letter-spacing:.08em}
+.navlinks a{text-decoration:none}
+.navlinks a:hover{color:var(--accent)}
+.cartbtn{background:none;border:1px solid var(--fg);border-radius:999px;padding:6px 16px;font-size:.85rem;display:flex;gap:8px;align-items:center}
+.cartbtn b{font-weight:500;font-variant-numeric:tabular-nums}
+@media (max-width:700px){.navlinks{display:none}}
+
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-block:56px}
+.hero h1{font-size:clamp(2.6rem,6.2vw,4.8rem);line-height:1.03;margin-top:14px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{max-width:44ch;color:var(--muted);margin:20px 0 28px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips span{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:.82rem}
+.hero .cta{display:inline-block;margin-top:28px;text-decoration:none}
+.heroimg{position:relative;border-radius:50% 50% 4px 4px;overflow:hidden;aspect-ratio:1;max-width:100%;background:var(--surface)}
+.heroimg img{width:100%;height:100%;object-fit:cover}
+@media (max-width:820px){.hero{grid-template-columns:1fr;gap:32px;padding-block:36px}.heroimg{max-width:460px}}
+
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-block:1px solid var(--line);padding-block:22px}
+.values div{display:flex;flex-direction:column;gap:2px}
+.values strong{font-weight:400}
+.values span{font-size:.85rem;color:var(--muted)}
+@media (max-width:640px){.values{grid-template-columns:1fr;gap:14px}}
+
+.cat{padding-block:64px 40px}
+.cathead{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.cathead h2{font-size:clamp(2rem,4vw,2.8rem);margin-top:6px}
+.tools{display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+.filters{display:flex;gap:4px;flex-wrap:wrap}
+.filters button{background:none;border:none;border-bottom:1px solid transparent;padding:4px 10px;font-size:.9rem;color:var(--muted)}
+.filters button sup{font-size:.68rem;margin-left:2px;font-variant-numeric:tabular-nums}
+.filters button[aria-pressed="true"]{color:var(--fg);border-color:var(--accent)}
+.toggle{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);cursor:pointer}
+.toggle input{accent-color:var(--accent);width:16px;height:16px}
+@media (max-width:700px){.tools{align-items:flex-start}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:36px 24px}
+@media (max-width:480px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}}
+.card{display:flex;flex-direction:column;gap:10px;cursor:pointer;background:none;border:none;padding:0;text-align:left;min-width:0}
+.card .pic{aspect-ratio:1;max-width:100%;background:var(--surface);position:relative;overflow:hidden}
+.card .pic img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.card:hover .pic img{transform:scale(1.05)}
+.card.out .pic img{filter:saturate(.55)}
+.badge{position:absolute;top:10px;left:10px;background:var(--bg);color:var(--soldout);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;padding:3px 9px;font-weight:400}
+.card h3{font-size:1.2rem;line-height:1.2}
+.card .meta{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.card .price{font-variant-numeric:tabular-nums;font-size:.95rem}
+.dots{display:flex;gap:4px}
+.dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--line)}
+.hide{display:none!important}
+.catlinks{display:flex;gap:6px;flex-wrap:wrap}
+.catlinks a{text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.86rem;transition:border-color .2s,color .2s}
+.catlinks a:hover{border-color:var(--accent);color:var(--accent)}
+.catlinks sup{font-size:.68rem;color:var(--muted);margin-left:3px;font-variant-numeric:tabular-nums}
+.more{display:flex;justify-content:center;margin-top:44px}
+.more .ghost{text-decoration:none;display:inline-flex;gap:8px;align-items:center;transition:background .2s,color .2s}
+.more .ghost:hover{background:var(--fg);color:var(--bg)}
+.more .ghost span{font-variant-numeric:tabular-nums;opacity:.7}
+.colview{padding-block:32px 72px}
+section[id],footer[id]{scroll-margin-top:80px}
+.back{display:inline-block;font-size:.86rem;color:var(--muted);text-decoration:none;margin-bottom:24px}
+.back:hover{color:var(--accent)}
+.colcount{margin:6px 0 0;color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.colview .cathead h2{font-size:clamp(2.4rem,5vw,3.4rem)}
+.navlinks a[aria-current="page"]{color:var(--accent)}
+.none{color:var(--muted);padding-block:24px}
+
+.pedido{display:grid;grid-template-columns:1fr 1fr;gap:56px;padding-block:72px;border-top:1px solid var(--line);align-items:center}
+.pedido h2{font-size:clamp(1.9rem,3.6vw,2.6rem);margin:10px 0 18px}
+.pedido .photo{aspect-ratio:3/2;max-width:100%;overflow:hidden;background:var(--surface)}
+.pedido .photo img{width:100%;height:100%;object-fit:cover}
+.steps{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.steps div{display:grid;grid-template-columns:2.4rem 1fr;gap:12px;padding-block:14px;border-bottom:1px solid var(--line)}
+.steps b{font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--accent);line-height:1.2}
+.steps p{margin:0}
+.steps strong{font-weight:400;display:block}
+.steps span{font-size:.88rem;color:var(--muted)}
+@media (max-width:820px){.pedido{grid-template-columns:1fr;gap:32px}}
+
+footer{border-top:1px solid var(--line);padding-block:32px 48px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.88rem;color:var(--muted)}
+footer .logo{color:var(--fg);font-size:1.25rem}
+footer a{text-decoration:none;border-bottom:1px solid var(--line)}
+footer a:hover{color:var(--accent)}
+
+.veil{position:fixed;inset:0;background:rgba(30,22,16,.5);z-index:20;opacity:0;pointer-events:none;transition:opacity .3s}
+.veil.on{opacity:1;pointer-events:auto}
+.modal{position:fixed;z-index:30;left:50%;top:50%;transform:translate(-50%,-46%);opacity:0;pointer-events:none;transition:.35s;
+  width:min(900px,calc(100% - 32px));max-height:calc(100% - 48px);overflow:auto;background:var(--bg);display:grid;grid-template-columns:1fr 1fr}
+.modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.modal .pic{background:var(--surface);aspect-ratio:1;max-width:100%}
+.modal .pic img{width:100%;height:100%;object-fit:cover}
+.modal .info{padding:32px;display:flex;flex-direction:column;gap:14px;min-width:0;position:relative}
+.modal h3{font-size:2.1rem;line-height:1.05;padding-right:28px}
+.modal .desc{color:var(--muted);margin:0}
+.spec{display:flex;gap:6px;flex-wrap:wrap}
+.spec span{font-size:.75rem;border:1px solid var(--line);padding:2px 10px;border-radius:999px}
+.colors{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.colors button{display:flex;align-items:center;gap:7px;background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;font-size:.84rem}
+.colors button i{width:16px;height:16px;border-radius:50%;display:block;border:1px solid var(--line)}
+.colors button[aria-pressed="true"]{border-color:var(--fg)}
+.colors button:disabled{opacity:.45;cursor:not-allowed;text-decoration:line-through}
+.mprice{font-size:1.5rem;font-variant-numeric:tabular-nums}
+.primary{background:var(--fg);color:var(--bg);border:none;padding:14px 22px;font-size:.86rem;letter-spacing:.12em;text-transform:uppercase;transition:background .2s;text-align:center;text-decoration:none;display:block}
+.primary:hover{background:var(--accent)}
+.primary:disabled{opacity:.4;cursor:not-allowed;background:var(--fg)}
+.ghost{background:none;border:1px solid var(--fg);padding:12px 22px;font-size:.84rem;letter-spacing:.1em;text-transform:uppercase}
+.x{position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.7rem;line-height:1;padding:6px}
+@media (max-width:700px){.modal{grid-template-columns:1fr}.modal .pic{aspect-ratio:4/3}.modal .info{padding:24px}}
+
+.drawer{position:fixed;z-index:30;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);transform:translateX(100%);transition:transform .4s cubic-bezier(.2,.7,.2,1);
+  display:flex;flex-direction:column;gap:4px;padding:calc(24px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) 24px}
+.drawer.on{transform:none}
+.drawer h3{font-size:1.8rem;margin-bottom:10px}
+.items{flex:1;overflow:auto;display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:60px 1fr auto;gap:14px;align-items:center;padding-block:12px;border-bottom:1px solid var(--line)}
+.item img{width:60px;height:60px;object-fit:cover}
+.item small{display:block;color:var(--muted);font-size:.78rem}
+.qty{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:.85rem;font-variant-numeric:tabular-nums}
+.qty button{width:24px;height:24px;border:1px solid var(--line);background:none;border-radius:50%;line-height:1;padding:0}
+.item .p{font-variant-numeric:tabular-nums;font-size:.9rem}
+.total{display:flex;justify-content:space-between;padding-block:14px;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-direction:column;gap:8px}
+.note{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+.toast{position:fixed;z-index:40;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;transition:.3s;background:var(--fg);color:var(--bg);padding:10px 20px;font-size:.88rem;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<nav><div class="wrap">
+  <a class="logo" href="#inicio" style="text-decoration:none">ALQUIMIA ELIXIR</a>
+  <div class="navlinks"><a href="#coleccion" id="navCol">Colección</a><a href="#pedido">Cómo pedir</a><a href="#contacto">Contacto</a></div>
+  <button class="cartbtn" id="openCart" aria-label="Abrir bolsa">Bolsa <b id="count">0</b></button>
+</div></nav>
+
+<main class="wrap">
+  <section class="colview" id="viewCol" hidden>
+    <a class="back" href="#inicio">← Volver al inicio</a>
+    <div class="cathead">
+      <div><p class="eyebrow">Catálogo 2026 – 2027</p><h2 id="colTitle">La colección</h2><p class="colcount" id="colCount"></p></div>
+      <div class="tools">
+        <div class="filters" id="filters"></div>
+        <label class="toggle"><input type="checkbox" id="onlyStock"> Ocultar agotados</label>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="none hide" id="none">No hay piezas disponibles en esta categoría por ahora.</p>
+  </section>
+
+  <div id="viewHome">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Colección 2026 – 2027</p>
+      <h1>Joyas para el día a día <em>y las ocasiones especiales.</em></h1>
+      <p class="lead">Anillos, aretes, collares y pulseras de diseño sofisticado, con acabados de calidad y hechos para durar.</p>
+      <div class="chips"><span>Acero inoxidable</span><span>Waterproof</span><span>Enchapado en oro 18k</span><span>Piedras naturales</span></div>
+      <a class="primary cta" href="#coleccion">Ver la colección</a>
+    </div>
+    <div class="heroimg"><img src="img/hero.jpg" alt="Mano con varios anillos de la colección Alquimia"></div>
+  </section>
+
+  <section class="values">
+    <div><strong>Entrega en 3 a 5 días hábiles</strong><span>Despachos los lunes, miércoles y viernes</span></div>
+    <div><strong>Agencia Shalom</strong><span>Envíos a todo el Perú</span></div>
+    <div><strong>Estación del Metropolitano</strong><span>Entrega en Matellini o Canaval y Moreyra</span></div>
+  </section>
+
+  <section class="cat" id="destacados">
+    <div class="cathead">
+      <div><p class="eyebrow">Catálogo 2026 – 2027</p><h2>Favoritas de la colección</h2></div>
+      <div class="catlinks" id="catlinks"></div>
+    </div>
+    <div class="grid" id="featured"></div>
+    <div class="more"><a class="ghost" href="#coleccion">Ver toda la colección <span id="totalCount"></span></a></div>
+  </section>
+
+  <section class="pedido" id="pedido">
+    <div>
+      <p class="eyebrow">Cómo realizar tu pedido</p>
+      <h2>Arma tu bolsa y envíanos el pedido por WhatsApp.</h2>
+      <div class="steps">
+        <div><b>1</b><p><strong>Elige tus joyas</strong><span>Añádelas a la bolsa y toca "Pedir por WhatsApp". Te ayudamos con tu compra.</span></p></div>
+        <div><b>2</b><p><strong>Agendamos el envío</strong><span>Lunes, miércoles y viernes, por Shalom o en estación del Metropolitano. Entrega en 3 a 5 días hábiles.</span></p></div>
+        <div><b>3</b><p><strong>Transferencia</strong><span>Antes del envío se realiza la transferencia de tu pedido.</span></p></div>
+      </div>
+    </div>
+    <div class="photo"><img src="img/taller.jpg" alt="Collares y anillos dorados de Alquimia Elixir"></div>
+  </section>
+  </div>
+
+  <footer id="contacto">
+    <div><span class="logo">ALQUIMIA ELIXIR</span><br>Accesorios · Lima, Perú</div>
+    <div>WhatsApp: <span style="user-select:all">933 682 846</span><br><a href="https://wa.me/51933682846" target="_blank" rel="noopener">Escríbenos</a></div>
+    <div>Instagram<br><a href="https://www.instagram.com/alquimiaelixir_accesorios/" target="_blank" rel="noopener">@alquimiaelixir_accesorios</a></div>
+  </footer>
+</main>
+
+<div class="veil" id="veil"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="pic"><img id="mImg" alt=""></div>
+  <div class="info">
+    <button class="x" id="mClose" aria-label="Cerrar">×</button>
+    <p class="eyebrow" id="mCat"></p>
+    <h3 id="mTitle"></h3>
+    <p class="desc" id="mDesc"></p>
+    <div class="spec" id="mSpec"></div>
+    <div id="mColorWrap"><p class="eyebrow">Color</p><div class="colors" id="mColors"></div></div>
+    <div class="mprice" id="mPrice"></div>
+    <button class="primary" id="mAdd">Añadir a la bolsa</button>
+  </div>
+</div>
+<aside class="drawer" id="drawer" aria-label="Bolsa">
+  <button class="x" id="dClose" aria-label="Cerrar bolsa" style="top:calc(12px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px))">×</button>
+  <h3>Tu bolsa</h3>
+  <div class="items" id="items"></div>
+  <div class="total"><span>Total</span><span id="total">S/ 0.00</span></div>
+  <div class="actions">
+    <a class="primary" id="wa" href="https://wa.me/51933682846" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+    <button class="ghost" id="copy">Copiar pedido</button>
+  </div>
+  <p class="note">Si WhatsApp no se abre, copia el pedido y envíalo al 933 682 846. La transferencia se realiza antes del envío.</p>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const COL={Crema:"#efe3cc",Azul:"#1f3a8a",Verde:"#2f6b3b","Borgoña":"#7a1f24",Caramelo:"#b5651d",Blanco:"#f7f4ef",Gris:"#7a716a",
+  "Animal print":"repeating-radial-gradient(circle at 30% 30%,#c9a26b 0 3px,#3b2a1c 3px 5px)",Cobalto:"#2563a8",Negro:"#222",Rojo:"#a31818",Mixto:"conic-gradient(#efe3cc 0 50%,#6b5a48 0)"};
+const CATS={anillo:"Anillos",arete:"Aretes",collar:"Collares",pulsera:"Pulseras"};
+const AC="Acero inoxidable", WP="Waterproof", ORO="Oro 18k", REG="Regulable";
+// [nombre, categoría, precio, agotado, colores (con ! = color agotado), descripción, especificaciones]
+const RAW=[
+["Anillos Isadora","anillo",20,0,["Crema","Azul","!Verde","Borgoña"],"Anillo regulable con piedra ovalada de color intenso.",[AC,REG]],
+["Anillo Zafiro","anillo",20,0,["Caramelo"],"Anillo regulable con piedra alargada en tono caramelo.",[AC,REG]],
+["Anillos Corazón","anillo",20,0,["Blanco","Gris","Animal print"],"Anillo regulable con corazón de resina.",[AC,REG]],
+["Anillo Mía","anillo",18,1,["Crema"],"Anillo regulable con piedra ovalada en color crema.",[AC,REG]],
+["Anillo Alquimia","anillo",28,1,[],"Anillo regulable de formas orgánicas con perla al centro.",[AC,REG]],
+["Anillos Cristina","anillo",20,0,["Blanco","!Caramelo"],"Anillo regulable con piedra redonda enmarcada en dorado.",[AC,REG]],
+["Anillos Helena","anillo",20,0,["Cobalto","Caramelo","Negro"],"Anillo regulable con piedra en forma de gota y borde texturizado.",[AC,WP,REG]],
+["Anillo Tezza","anillo",29,0,["Crema","Rojo"],"Anillo regulable con un corazón grande y brillante.",[AC,WP,REG]],
+["Anillos Kiara","anillo",20,0,["Crema","Mixto"],"Anillo regulable con piedra redonda y marco dorado.",[AC,WP,REG]],
+["Arete Dalí","arete",18,1,[],"Arete de forma fluida inspirado en Dalí, con acabado lujoso y duradero.",[WP]],
+["Arete Valentina","arete",18,1,[],"Argollas entrelazadas con acabado lujoso y duradero.",[AC,WP,ORO]],
+["Arete Corazón Plateado","arete",20,0,[],"Corazón plateado pequeño, ideal para el día a día.",[AC,WP,ORO]],
+["Arete Ursula","arete",20,0,[],"Arete dorado con líneas en relieve, de presencia elegante.",[AC,WP,ORO]],
+["Arete Luciana","arete",20,0,[],"Arete dorado de diseño delicado y acabado duradero.",[AC,WP,ORO]],
+["Arete Mar","arete",25,0,[],"Arete colgante con conchas, estrellas y perlas.",[AC,WP,ORO]],
+["Arete Circular con Perla","arete",28,0,[],"Aro circular dorado con perla.",[AC,WP,ORO]],
+["Arete Caracol","arete",38,0,[],"Arete en espiral de caracol, dorado y con volumen.",[AC,WP,ORO]],
+["Arete Corazón","arete",35,0,[],"Corazón dorado con volumen y brillo.",[AC,WP,ORO]],
+["Arete Van Blanco","arete",25,1,[],"Trébol blanco con borde dorado.",[AC,WP,ORO]],
+["Arete Estrella","arete",38,0,[],"Estrella de mar dorada con textura.",[AC,WP,ORO]],
+["Collar Ojo Turco Swarovski","collar",38,0,[],"Collar con dije de ojo turco, de acabado lujoso y duradero.",[AC,WP]],
+["Collar Corazón Murano","collar",35,1,[],"Collar de piedras murano con dije de corazón.",[AC]],
+["Collar Avión Dorado","collar",38,1,[],"Collar con dije de avión, de acabado lujoso y duradero.",[AC,WP,ORO]],
+["Collar Ojo Turco Blanco Plateado","collar",38,0,[],"Collar plateado con dije de ojo turco blanco.",[AC,WP]],
+["Collar Oso Dorado","collar",38,0,[],"Collar con dije de osito y corazón rojo.",[AC,WP,ORO]],
+["Collar Corazón Dorado","collar",38,0,[],"Collar fino con dije de corazón.",[AC,WP,ORO]],
+["Collar Círculo Swarovski","collar",38,1,[],"Collar con dije circular de cristal.",[AC,WP,ORO]],
+["Collar Oso Plateado","collar",38,0,[],"Collar plateado con dije de osito y corazón rosado.",[AC,WP]],
+["Collar Corazón Colores Swarovski","collar",38,0,[],"Collar con corazón de cristales de colores.",[AC,WP,ORO]],
+["Collar Ojo Turco Azul Dorado","collar",38,1,[],"Collar dorado con dije de ojo turco azul.",[AC,WP,ORO]],
+["Collar Ojo Turco Azul Plateado","collar",38,0,[],"Collar plateado con dije de ojo turco azul.",[AC,WP]],
+["Collar San Benito Dorado","collar",38,1,[],"Collar con dije de San Benito, de acabado lujoso y duradero.",[AC,WP,ORO]],
+["Collar Piedra con Caramelo","collar",38,1,[],"Collar fino con piedra en tono caramelo.",[AC,WP,ORO]],
+["Collar Piedra con Blanco","collar",38,0,[],"Collar fino con piedra blanca.",[AC,WP,ORO]],
+["Collar Avión Plateado","collar",38,0,[],"Collar plateado con dije de avión.",[AC,WP]],
+["Collar Fucsia Murano","collar",35,0,[],"Collar de cuentas murano en tonos fucsia.",[WP]],
+["Collar Aura Piedras Naturales","collar",55,0,[],"Collar de piedras naturales con detalles de acero inoxidable.",[WP,"Piedras naturales"]],
+["Collar Corazón Swarovski","collar",38,0,[],"Collar con corazón de cristal.",[AC,WP,ORO]],
+["Collar Piedras Murano Borgoña","collar",32,1,[],"Collar largo de cuentas murano en borgoña.",["Murano"]],
+["Collar Piedras Murano Azul","collar",32,0,[],"Collar largo de cuentas murano en azul.",["Murano"]],
+["Collar Piedras Murano Gris","collar",32,1,[],"Collar largo de cuentas murano en gris.",["Murano"]],
+["Collar Piedras Murano Blanco","collar",32,0,[],"Collar largo de cuentas murano en blanco.",["Murano"]],
+["Pulseras Van Blanco","pulsera",30,1,[],"Pulsera de tréboles blancos con acabado lujoso y duradero.",[WP]],
+["Pulsera Cuarzo Jade Pasaporte","pulsera",50,0,[],"Jade natural, símbolo de armonía, abundancia y protección espiritual. Dije de pasaporte.",["Piedra natural",AC]],
+["Pulsera Cuarzo Coral Rojo Corazón","pulsera",50,0,[],"Coral rojo natural, piedra que anima el estado del alma. Dije de corazón.",["Piedra natural",AC]],
+["Pulsera Cuarzo Pirita Pasaporte","pulsera",50,0,[],"Pirita natural, asociada a la prosperidad y el éxito; estimula la creatividad. Dije de pasaporte.",["Piedra natural",AC]],
+["Pulsera Cuarzo Turquesa Avión","pulsera",50,0,[],"Turquesa natural, amuleto de protección, equilibrio y buena energía. Dije de avión.",["Piedra natural",AC]],
+["Pulsera Cuarzo Jade Ojo Turco","pulsera",50,0,[],"Jade natural, símbolo de armonía, abundancia y protección espiritual. Dije de ojo turco.",["Piedra natural",AC]],
+["Pulsera Cuarzo Jade 11:11","pulsera",50,0,[],"Jade natural, símbolo de armonía, abundancia y protección espiritual. Dije 11:11.",["Piedra natural",AC]]
+];
+const P=RAW.map((r,i)=>({id:"p"+String(i+1).padStart(2,"0"),n:r[0],c:r[1],p:r[2],out:!!r[3],
+  colors:r[4].map(x=>({name:x.replace("!",""),out:x[0]==="!"})),d:r[5],spec:r[6]}));
+P.forEach(p=>p.img=`img/${p.id}.jpg`);
+
+const $=id=>document.getElementById(id);
+const soles=n=>"S/ "+n.toFixed(2);
+const sw=c=>COL[c]||"#ccc";
+
+/* catálogo */
+let cat="todo",onlyStock=false;
+try{onlyStock=localStorage.getItem("ae-stock")==="1"}catch(e){}
+$("onlyStock").checked=onlyStock;
+function renderFilters(){
+  const opts={todo:"Todo",...CATS};
+  $("filters").innerHTML=Object.entries(opts).map(([k,v])=>{const n=P.filter(p=>(k==="todo"||p.c===k)&&(!onlyStock||!p.out)).length;
+    return `<button data-c="${k}" aria-pressed="${k===cat}">${v}<sup>${n}</sup></button>`}).join("");
+}
+const card=p=>`<button class="card${p.out?" out":""}" data-id="${p.id}">
+  <div class="pic"><img src="${p.img}" alt="${p.n}" loading="lazy">${p.out?'<span class="badge">Agotado</span>':""}</div>
+  <h3>${p.n}</h3>
+  <div class="meta"><span class="price">${soles(p.p)}</span><span class="dots">${p.colors.map(c=>`<i class="dot" style="background:${sw(c.name)}" title="${c.name}"></i>`).join("")}</span></div>
+</button>`;
+$("grid").innerHTML=P.map(card).join("");
+
+/* inicio: solo unas cuantas piezas */
+const FEATURED=["p01","p08","p17","p20","p25","p37","p44","p47"];
+$("featured").innerHTML=FEATURED.map(id=>card(P.find(p=>p.id===id))).join("");
+$("totalCount").textContent=`(${P.length})`;
+const SLUG={anillo:"anillos",arete:"aretes",collar:"collares",pulsera:"pulseras"};
+$("catlinks").innerHTML=Object.entries(CATS).map(([k,v])=>`<a href="#${SLUG[k]}">${v}<sup>${P.filter(p=>p.c===k).length}</sup></a>`).join("");
+
+function applyFilter(){
+  let shown=0;
+  $("grid").querySelectorAll(".card").forEach(el=>{const p=P.find(x=>x.id===el.dataset.id);
+    const ok=(cat==="todo"||p.c===cat)&&(!onlyStock||!p.out);el.classList.toggle("hide",!ok);if(ok)shown++});
+  $("none").classList.toggle("hide",shown>0);renderFilters();
+  const inCat=P.filter(p=>cat==="todo"||p.c===cat);
+  $("colTitle").textContent=cat==="todo"?"La colección":CATS[cat];
+  $("colCount").textContent=`${inCat.length} piezas · ${inCat.filter(p=>!p.out).length} disponibles`;
+}
+$("filters").onclick=e=>{const b=e.target.closest("[data-c]");if(!b)return;
+  const h=b.dataset.c==="todo"?"coleccion":SLUG[b.dataset.c];
+  if(location.hash!=="#"+h){location.hash=h}else{cat=b.dataset.c;applyFilter()}};
+$("onlyStock").onchange=e=>{onlyStock=e.target.checked;try{localStorage.setItem("ae-stock",onlyStock?"1":"0")}catch(_){}applyFilter()};
+const openCard=e=>{const c=e.target.closest(".card");if(c)openModal(c.dataset.id)};
+$("grid").onclick=openCard;$("featured").onclick=openCard;
+
+/* vistas: inicio y colección interna */
+const VIEWS={coleccion:"todo",anillos:"anillo",aretes:"arete",collares:"collar",pulseras:"pulsera"};
+let lastView=null;
+function route(){
+  const h=location.hash.slice(1);closeAll();
+  if(h in VIEWS){
+    cat=VIEWS[h];applyFilter();
+    $("viewCol").hidden=false;$("viewHome").hidden=true;$("navCol").setAttribute("aria-current","page");
+    if(lastView!=="col")window.scrollTo(0,0);lastView="col";
+  }else{
+    $("viewCol").hidden=true;$("viewHome").hidden=false;$("navCol").removeAttribute("aria-current");
+    const t=h&&document.getElementById(h);
+    if(t&&h!=="inicio")t.scrollIntoView();else window.scrollTo(0,0);
+    lastView="home";
+  }
+}
+window.addEventListener("hashchange",route);
+route();
+
+/* ficha */
+let cur=null,mColor=null;
+function drawColors(){
+  $("mColorWrap").hidden=!cur.colors.length;
+  $("mColors").innerHTML=cur.colors.map(c=>`<button data-col="${c.name}" aria-pressed="${c.name===mColor}" ${c.out||cur.out?"disabled":""}><i style="background:${sw(c.name)}"></i>${c.name}${c.out?" · agotado":""}</button>`).join("");
+}
+$("mColors").onclick=e=>{const b=e.target.closest("[data-col]");if(b&&!b.disabled){mColor=b.dataset.col;drawColors()}};
+function openModal(id){
+  cur=P.find(p=>p.id===id);const free=cur.colors.find(c=>!c.out);mColor=free?free.name:null;
+  $("mImg").src=cur.img;$("mImg").alt=cur.n;$("mCat").textContent=CATS[cur.c]+(cur.out?" · Agotado":"");
+  $("mTitle").textContent=cur.n;$("mDesc").textContent=cur.d;$("mPrice").textContent=soles(cur.p);
+  $("mSpec").innerHTML=cur.spec.map(s=>`<span>${s}</span>`).join("");
+  drawColors();
+  $("mAdd").disabled=cur.out;$("mAdd").textContent=cur.out?"Agotado":"Añadir a la bolsa";
+  $("modal").classList.add("on");$("veil").classList.add("on");$("mClose").focus();
+}
+function closeAll(){$("modal").classList.remove("on");$("drawer").classList.remove("on");$("veil").classList.remove("on")}
+$("mClose").onclick=closeAll;$("dClose").onclick=closeAll;$("veil").onclick=closeAll;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
+
+/* bolsa */
+let cart=[];try{cart=(JSON.parse(localStorage.getItem("ae-cart"))||[]).filter(i=>P.some(p=>p.id===i.id))}catch(e){}
+const save=()=>{try{localStorage.setItem("ae-cart",JSON.stringify(cart))}catch(e){}};
+function orderText(){
+  const lines=cart.map(i=>{const p=P.find(x=>x.id===i.id);return `• ${i.q} x ${p.n}${i.col?" ("+i.col+")":""} – ${soles(i.q*p.p)}`});
+  const tot=cart.reduce((a,i)=>a+i.q*P.find(x=>x.id===i.id).p,0);
+  return `Hola Alquimia Elixir, quiero hacer este pedido:\n${lines.join("\n")}\nTotal: ${soles(tot)}`;
+}
+function renderCart(){
+  const n=cart.reduce((a,i)=>a+i.q,0),tot=cart.reduce((a,i)=>a+i.q*P.find(x=>x.id===i.id).p,0);
+  $("count").textContent=n;$("total").textContent=soles(tot);
+  $("items").innerHTML=cart.length?cart.map((i,k)=>{const p=P.find(x=>x.id===i.id);return `<div class="item"><img src="${p.img}" alt=""><div>${p.n}<small>${i.col||CATS[p.c]}</small><div class="qty"><button data-k="${k}" data-d="-1" aria-label="Quitar uno">−</button>${i.q}<button data-k="${k}" data-d="1" aria-label="Añadir uno">+</button></div></div><span class="p">${soles(i.q*p.p)}</span></div>`}).join("")
+    :`<p class="none">Tu bolsa está vacía. Elige tus joyas en la colección.</p>`;
+  $("wa").href="https://wa.me/51933682846"+(cart.length?"?text="+encodeURIComponent(orderText()):"");
+  $("copy").disabled=!cart.length;save();
+}
+$("items").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;const k=+b.dataset.k;cart[k].q+=+b.dataset.d;if(cart[k].q<1)cart.splice(k,1);renderCart()};
+$("mAdd").onclick=()=>{if(cur.out)return;const ex=cart.find(i=>i.id===cur.id&&i.col===mColor);
+  ex?ex.q++:cart.push({id:cur.id,col:mColor,q:1});renderCart();closeAll();toast(`${cur.n} se añadió a tu bolsa`)};
+$("openCart").onclick=()=>{$("drawer").classList.add("on");$("veil").classList.add("on")};
+$("copy").onclick=()=>{const t=orderText();
+  const ok=()=>toast("Pedido copiado. Pégalo en WhatsApp al 933 682 846");
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,()=>fallback(t))}else fallback(t);
+  function fallback(t){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");ok()}catch(e){toast("No se pudo copiar. Escríbenos al 933 682 846")}ta.remove()}
+};
+let tt;function toast(m){$("toast").textContent=m;$("toast").classList.add("on");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.remove("on"),2600)}
+renderCart();
+</script>

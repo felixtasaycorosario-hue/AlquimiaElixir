@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Black Alquimia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana&family=Pinyon+Script&family=Jost:ital,wght@0,300;0,400;0,500;1,600;1,700&display=swap">
+<style>
+/* Layout: banner tipo póster de las gráficas de redes (foto atenuada, BLACK + Alquimia en caligrafía, 15% OFF, alerta en pedrería roja); debajo la colección completa al 15% por categoría y bolsa lateral con pedido por WhatsApp. */
+:root{
+  --bg:#efe7dc; --surface:#e6dccd; --fg:#3a2e25; --muted:#7d6b5c; --line:#cbbba7;
+  --accent:#a0521f; --red:#b8122b;
+  --ink:#1c1714; --paper:#f4f1ec; --paperdim:#cfc6bb;
+  --display:"Italiana","Didot",Georgia,serif;
+  --script:"Pinyon Script","Snell Roundhand","Apple Chancery",cursive;
+  --body:"Jost","Avenir Next","Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#211a15;--surface:#2c231c;--fg:#ece2d5;--muted:#a8978a;--line:#4a3d33;--accent:#d88a55;--red:#e2475c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#211a15;--surface:#2c231c;--fg:#ece2d5;--muted:#a8978a;--line:#4a3d33;--accent:#d88a55;--red:#e2475c;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.6}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1160px;margin:0 auto}
+h1,h2,h3{font-weight:400;text-wrap:balance;margin:0}
+h2,h3{font-family:var(--display)}
+.eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;margin:0;color:var(--muted)}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);color:var(--paper)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{font-family:var(--display);font-size:1.35rem;letter-spacing:.14em;white-space:nowrap}
+.cartbtn{background:none;border:1px solid var(--paper);color:var(--paper);border-radius:999px;padding:6px 16px;font-size:.85rem;display:flex;gap:8px}
+.cartbtn b{font-weight:500;font-variant-numeric:tabular-nums}
+
+/* alerta tipo titular de periódico */
+.alert{background:var(--paper);color:var(--ink);border-bottom:1px solid var(--paperdim)}
+.alert .wrap{display:flex;align-items:center;justify-content:center;gap:10px 18px;flex-wrap:wrap;padding-block:10px;text-align:center}
+.alert .eyebrow{color:#5d544c}
+.gem{font-family:var(--body);font-weight:700;letter-spacing:.02em;color:var(--red);
+  background:radial-gradient(circle at 35% 35%,#ffd0d6 0 .7px,#d61a35 1.2px 2.1px,#6e0716 2.6px) 0 0/5px 5px;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.alert .gem{font-size:1.25rem}
+
+/* banner */
+.banner{position:relative;color:var(--paper);background:var(--ink);overflow:hidden;isolation:isolate}
+.banner::before{content:"";position:absolute;inset:0;z-index:-2;background:url(img/banner.jpg) center 45%/cover no-repeat}
+.banner::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(28,23,20,.55),rgba(28,23,20,.72) 60%,rgba(28,23,20,.9))}
+.banner .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:56px 60px}
+.black{font-family:var(--body);font-style:italic;font-weight:700;font-size:clamp(1.8rem,4.6vw,3rem);letter-spacing:.06em;line-height:1;color:var(--ink);
+  -webkit-text-stroke:1px var(--paper);text-shadow:0 1px 0 rgba(244,241,236,.25)}
+.script{font-family:var(--script);font-size:clamp(4.6rem,15vw,10rem);line-height:.9;margin:-.05em 0 .12em;font-weight:400}
+.pill{background:var(--paper);color:var(--ink);border-radius:10px;padding:6px 20px;font-size:clamp(1rem,2.4vw,1.35rem);font-weight:400}
+.pill b{font-weight:500}
+.off{font-family:var(--body);font-style:italic;font-weight:600;font-size:clamp(4rem,13vw,8.2rem);line-height:.92;margin-top:18px;letter-spacing:.01em}
+.off small{display:block;font-size:.62em}
+.sub{font-style:italic;font-size:clamp(1.05rem,2.6vw,1.4rem);margin-top:10px}
+.cta{margin-top:26px;background:var(--paper);color:var(--ink);text-decoration:none;padding:13px 26px;font-size:.84rem;letter-spacing:.14em;text-transform:uppercase;font-weight:400;transition:background .2s,color .2s}
+.cta:hover{background:var(--red);color:#fff}
+.clock{margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.clock .eyebrow{color:var(--paperdim)}
+.cd{display:flex;gap:8px}
+.cd div{border:1px solid rgba(244,241,236,.35);min-width:62px;padding:6px 8px;background:rgba(28,23,20,.35)}
+.cd b{display:block;font-family:var(--display);font-weight:400;font-size:1.8rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.cd small{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--paperdim)}
+@media (max-width:420px){.cd div{min-width:0;flex:1;padding:6px 4px}.cd b{font-size:1.45rem}}
+
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-bottom:1px solid var(--line);padding-block:20px}
+.strip div{display:flex;flex-direction:column}
+.strip strong{font-weight:400}
+.strip span{font-size:.85rem;color:var(--muted)}
+@media (max-width:640px){.strip{grid-template-columns:1fr;gap:12px}}
+
+.deals{padding-block:56px 48px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.head h2{font-size:clamp(2rem,4vw,2.8rem);margin-top:6px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{background:none;border:none;border-bottom:1px solid transparent;padding:4px 10px;font-size:.92rem;color:var(--muted)}
+.tabs button sup{font-size:.68rem;margin-left:2px}
+.tabs button[aria-pressed="true"]{color:var(--fg);border-color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:36px 24px}
+@media (max-width:480px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}}
+.card{display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .pic{aspect-ratio:1;max-width:100%;background:var(--surface);position:relative;overflow:hidden;cursor:pointer;border:none;padding:0}
+.card .pic img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.card:hover .pic img{transform:scale(1.05)}
+.tag{position:absolute;top:10px;left:10px;font-size:.78rem;font-weight:500;letter-spacing:.06em;padding:3px 10px;background:var(--red);color:#fff}
+.card h3{font-size:1.18rem;line-height:1.2}
+.prices{display:flex;gap:10px;align-items:baseline;font-variant-numeric:tabular-nums}
+.prices b{font-weight:500;font-size:1.05rem}
+.prices s{color:var(--muted);font-size:.85rem}
+.row{display:flex;gap:8px}
+.row select{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);padding:8px 6px;font-size:.82rem}
+.add{flex:1;background:none;border:1px solid var(--line);padding:9px 10px;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;transition:.2s;white-space:nowrap}
+.add:hover{border-color:var(--fg);background:var(--fg);color:var(--bg)}
+.hide{display:none!important}
+
+.cond{border-top:1px solid var(--line);padding-block:44px 24px;display:grid;grid-template-columns:1fr 2fr;gap:32px}
+.cond h2{font-size:1.9rem}
+.cond ul{margin:0;padding-left:1.1em;color:var(--muted);display:flex;flex-direction:column;gap:6px;max-width:62ch}
+@media (max-width:700px){.cond{grid-template-columns:1fr;gap:14px}}
+.soon{border-top:1px solid var(--line);padding-block:36px;text-align:center}
+.soon p{font-family:var(--script);font-size:clamp(2.2rem,6vw,3.2rem);line-height:1.1;margin:6px 0 0}
+footer{border-top:1px solid var(--line);padding-block:28px 44px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:.88rem;color:var(--muted)}
+footer a{text-decoration:none;border-bottom:1px solid var(--line)}
+footer a:hover{color:var(--accent)}
+
+.veil{position:fixed;inset:0;background:rgba(20,14,10,.55);z-index:20;opacity:0;pointer-events:none;transition:opacity .3s}
+.veil.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:30;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);transform:translateX(100%);transition:transform .4s cubic-bezier(.2,.7,.2,1);
+  display:flex;flex-direction:column;gap:4px;padding:calc(24px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) 24px}
+.drawer.on{transform:none}
+.drawer h3{font-size:1.8rem;margin-bottom:10px}
+.x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));background:none;border:none;font-size:1.7rem;line-height:1;padding:6px}
+.items{flex:1;overflow:auto;display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:60px 1fr auto;gap:14px;align-items:center;padding-block:12px;border-bottom:1px solid var(--line)}
+.item img{width:60px;height:60px;object-fit:cover}
+.item small{display:block;color:var(--muted);font-size:.78rem}
+.qty{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:.85rem;font-variant-numeric:tabular-nums}
+.qty button{width:24px;height:24px;border:1px solid var(--line);background:none;border-radius:50%;line-height:1;padding:0}
+.item .p{font-variant-numeric:tabular-nums;font-size:.9rem}
+.total{display:flex;justify-content:space-between;padding-block:14px;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.primary{background:var(--fg);color:var(--bg);border:none;padding:14px 22px;font-size:.86rem;letter-spacing:.12em;text-transform:uppercase;text-align:center;text-decoration:none;display:block;transition:background .2s}
+.primary:hover{background:var(--red);color:#fff}
+.ghost{background:none;border:1px solid var(--fg);padding:12px 22px;font-size:.84rem;letter-spacing:.1em;text-transform:uppercase}
+.ghost:disabled{opacity:.4;cursor:not-allowed}
+.actions{display:flex;flex-direction:column;gap:8px}
+.note{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+.empty{color:var(--muted);padding-block:20px}
+.toast{position:fixed;z-index:40;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;transition:.3s;background:var(--fg);color:var(--bg);padding:10px 20px;font-size:.88rem;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<nav class="pad"><div class="wrap">
+  <span class="logo">ALQUIMIA ELIXIR</span>
+  <button class="cartbtn" id="openCart" aria-label="Abrir bolsa">Bolsa <b id="count">0</b></button>
+</div></nav>
+
+<div class="alert pad"><div class="wrap">
+  <span class="gem">¡ALERTA!</span>
+  <span class="eyebrow">Últimos descuentos del año · Solo 26 y 27 de noviembre</span>
+</div></div>
+
+<header class="banner pad"><div class="wrap">
+  <p class="black">BLACK</p>
+  <h1 class="script">Alquimia</h1>
+  <p class="pill">Promo <b>26.11</b> y <b>27.11</b></p>
+  <p class="off">15%<small>OFF</small></p>
+  <p class="sub">En toda la colección</p>
+  <a class="cta" href="#ofertas">Comprar con 15%</a>
+  <div class="clock">
+    <p class="eyebrow" id="cdLabel">La promo termina en</p>
+    <div class="cd" aria-live="off">
+      <div><b id="cdD">0</b><small>días</small></div><div><b id="cdH">00</b><small>horas</small></div>
+      <div><b id="cdM">00</b><small>min</small></div><div><b id="cdS">00</b><small>seg</small></div>
+    </div>
+  </div>
+</div></header>
+
+<div class="pad"><div class="wrap">
+  <section class="strip">
+    <div><strong>Descuento ya aplicado</strong><span>El precio que ves es el precio final</span></div>
+    <div><strong>Despachos lunes, miércoles y viernes</strong><span>Shalom o estación del Metropolitano</span></div>
+    <div><strong>Hasta agotar stock</strong><span>Separa tu pieza con la transferencia</span></div>
+  </section>
+
+  <section class="deals" id="ofertas">
+    <div class="head">
+      <div><p class="eyebrow">Toda la colección al 15%</p><h2>Elige tus joyas</h2></div>
+      <div class="tabs" id="tabs"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="cond">
+    <h2>Condiciones</h2>
+    <ul>
+      <li>Válido el miércoles 26 y el jueves 27 de noviembre de 2026, o hasta agotar stock.</li>
+      <li>15% de descuento en todas las piezas disponibles de la colección 2026 – 2027.</li>
+      <li>No se acumula con otras promociones.</li>
+      <li>El pedido se confirma por WhatsApp y se separa al realizar la transferencia. Entrega en 3 a 5 días hábiles.</li>
+    </ul>
+  </section>
+
+  <section class="soon">
+    <p class="eyebrow">Muy pronto</p>
+    <p>Nueva Colección Verano</p>
+  </section>
+
+  <footer>
+    <div>WhatsApp: <span style="user-select:all">933 682 846</span></div>
+    <div><a href="https://www.instagram.com/alquimiaelixir_accesorios/" target="_blank" rel="noopener">@alquimiaelixir_accesorios</a></div>
+    <div><a href="index.html">Tienda Alquimia Elixir</a></div>
+  </footer>
+</div></div>
+
+<div class="veil" id="veil"></div>
+<aside class="drawer" id="drawer" aria-label="Bolsa">
+  <button class="x" id="dClose" aria-label="Cerrar bolsa">×</button>
+  <h3>Tu bolsa</h3>
+  <div class="items" id="items"></div>
+  <div class="total"><span>Total con 15%</span><span id="total">S/ 0.00</span></div>
+  <div class="actions">
+    <a class="primary" id="wa" href="https://wa.me/51933682846" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+    <button class="ghost" id="copy">Copiar pedido</button>
+  </div>
+  <p class="note">Si WhatsApp no se abre, copia el pedido y envíalo al 933 682 846.</p>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const OFF=15;
+const CATS={anillo:"Anillos",arete:"Aretes",collar:"Collares",pulsera:"Pulseras"};
+// [imagen, nombre, categoría, precio normal, colores disponibles]
+const D=[
+ ["p01","Anillos Isadora","anillo",20,["Crema","Azul","Borgoña"]],
+ ["p02","Anillo Zafiro","anillo",20,["Caramelo"]],
+ ["p03","Anillos Corazón","anillo",20,["Blanco","Gris","Animal print"]],
+ ["p06","Anillos Cristina","anillo",20,["Blanco"]],
+ ["p07","Anillos Helena","anillo",20,["Cobalto","Caramelo","Negro"]],
+ ["p08","Anillo Tezza","anillo",29,["Crema","Rojo"]],
+ ["p09","Anillos Kiara","anillo",20,["Crema","Mixto"]],
+ ["p12","Arete Corazón Plateado","arete",20],
+ ["p13","Arete Ursula","arete",20],
+ ["p14","Arete Luciana","arete",20],
+ ["p15","Arete Mar","arete",25],
+ ["p16","Arete Circular con Perla","arete",28],
+ ["p17","Arete Caracol","arete",38],
+ ["p18","Arete Corazón","arete",35],
+ ["p20","Arete Estrella","arete",38],
+ ["p21","Collar Ojo Turco Swarovski","collar",38],
+ ["p24","Collar Ojo Turco Blanco Plateado","collar",38],
+ ["p25","Collar Oso Dorado","collar",38],
+ ["p26","Collar Corazón Dorado","collar",38],
+ ["p28","Collar Oso Plateado","collar",38],
+ ["p29","Collar Corazón Colores Swarovski","collar",38],
+ ["p31","Collar Ojo Turco Azul Plateado","collar",38],
+ ["p34","Collar Piedra con Blanco","collar",38],
+ ["p35","Collar Avión Plateado","collar",38],
+ ["p36","Collar Fucsia Murano","collar",35],
+ ["p37","Collar Aura Piedras Naturales","collar",55],
+ ["p38","Collar Corazón Swarovski","collar",38],
+ ["p40","Collar Piedras Murano Azul","collar",32],
+ ["p42","Collar Piedras Murano Blanco","collar",32],
+ ["p44","Pulsera Cuarzo Jade Pasaporte","pulsera",50],
+ ["p45","Pulsera Cuarzo Coral Rojo Corazón","pulsera",50],
+ ["p46","Pulsera Cuarzo Pirita Pasaporte","pulsera",50],
+ ["p47","Pulsera Cuarzo Turquesa Avión","pulsera",50],
+ ["p48","Pulsera Cuarzo Jade Ojo Turco","pulsera",50],
+ ["p49","Pulsera Cuarzo Jade 11:11","pulsera",50]
+].map(([id,n,c,p,cols])=>({id,n,c,p,cols:cols||[],f:Math.round(p*(100-OFF))/100}));
+
+const $=id=>document.getElementById(id);
+const soles=n=>"S/ "+n.toFixed(2);
+
+/* cuenta regresiva (hora de Lima) */
+const START=Date.parse("2026-11-26T00:00:00-05:00"),END=Date.parse("2026-11-27T23:59:59-05:00");
+function tick(){
+  const now=Date.now();let t;
+  if(now<START){$("cdLabel").textContent="La promo empieza en";t=START-now}
+  else if(now<=END){$("cdLabel").textContent="La promo termina en";t=END-now}
+  else{$("cdLabel").textContent="La promo terminó. Gracias por tu compra";t=0}
+  const s=Math.floor(t/1000);
+  $("cdD").textContent=Math.floor(s/86400);
+  $("cdH").textContent=String(Math.floor(s%86400/3600)).padStart(2,"0");
+  $("cdM").textContent=String(Math.floor(s%3600/60)).padStart(2,"0");
+  $("cdS").textContent=String(s%60).padStart(2,"0");
+}
+tick();setInterval(tick,1000);
+
+/* colección */
+let tab="todo";
+function renderTabs(){
+  const o={todo:"Todo",...CATS};
+  $("tabs").innerHTML=Object.entries(o).map(([k,v])=>`<button data-t="${k}" aria-pressed="${k===tab}">${v}<sup>${k==="todo"?D.length:D.filter(d=>d.c===k).length}</sup></button>`).join("");
+}
+$("grid").innerHTML=D.map(d=>`<article class="card" data-c="${d.c}">
+  <button class="pic" data-add="${d.id}" aria-label="Añadir ${d.n} a la bolsa"><img src="img/${d.id}.jpg" alt="${d.n}" loading="lazy"><span class="tag">−${OFF}%</span></button>
+  <h3>${d.n}</h3>
+  <div class="prices"><b>${soles(d.f)}</b><s>${soles(d.p)}</s></div>
+  <div class="row">${d.cols.length>1?`<select id="col-${d.id}" aria-label="Color de ${d.n}">${d.cols.map(c=>`<option>${c}</option>`).join("")}</select>`:""}<button class="add" data-add="${d.id}">Añadir</button></div>
+</article>`).join("");
+function applyTab(){document.querySelectorAll(".card").forEach(c=>c.classList.toggle("hide",tab!=="todo"&&c.dataset.c!==tab));renderTabs()}
+$("tabs").onclick=e=>{const b=e.target.closest("[data-t]");if(b){tab=b.dataset.t;applyTab()}};
+applyTab();
+
+/* bolsa */
+let cart=[];try{cart=(JSON.parse(localStorage.getItem("ae-black"))||[]).filter(i=>D.some(d=>d.id===i.id))}catch(e){}
+const get=id=>D.find(d=>d.id===id);
+function text(){
+  const l=cart.map(i=>{const d=get(i.id);return `• ${i.q} x ${d.n}${i.col?" ("+i.col+")":""} – ${soles(i.q*d.f)}`});
+  const tot=cart.reduce((a,i)=>a+i.q*get(i.id).f,0);
+  return `Hola Alquimia Elixir, quiero hacer este pedido de Black Alquimia (15% OFF):\n${l.join("\n")}\nTotal: ${soles(tot)}`;
+}
+function renderCart(){
+  const n=cart.reduce((a,i)=>a+i.q,0),tot=cart.reduce((a,i)=>a+i.q*get(i.id).f,0);
+  $("count").textContent=n;$("total").textContent=soles(tot);
+  $("items").innerHTML=cart.length?cart.map((i,k)=>{const d=get(i.id);return `<div class="item"><img src="img/${d.id}.jpg" alt=""><div>${d.n}<small>${i.col?i.col+" · ":""}${soles(d.f)} c/u</small><div class="qty"><button data-k="${k}" data-d="-1" aria-label="Quitar uno">−</button>${i.q}<button data-k="${k}" data-d="1" aria-label="Añadir uno">+</button></div></div><span class="p">${soles(i.q*d.f)}</span></div>`}).join("")
+    :`<p class="empty">Tu bolsa está vacía. Elige tus joyas con 15% de descuento.</p>`;
+  $("wa").href="https://wa.me/51933682846"+(cart.length?"?text="+encodeURIComponent(text()):"");
+  $("copy").disabled=!cart.length;
+  try{localStorage.setItem("ae-black",JSON.stringify(cart))}catch(e){}
+}
+$("grid").onclick=e=>{const b=e.target.closest("[data-add]");if(!b)return;const d=get(b.dataset.add);
+  const sel=$("col-"+d.id);const col=sel?sel.value:(d.cols[0]||null);
+  const ex=cart.find(i=>i.id===d.id&&i.col===col);ex?ex.q++:cart.push({id:d.id,col,q:1});
+  renderCart();toast(`${d.n}${col?" ("+col+")":""} se añadió a tu bolsa`)};
+$("items").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;const k=+b.dataset.k;cart[k].q+=+b.dataset.d;if(cart[k].q<1)cart.splice(k,1);renderCart()};
+const close=()=>{$("drawer").classList.remove("on");$("veil").classList.remove("on")};
+$("openCart").onclick=()=>{$("drawer").classList.add("on");$("veil").classList.add("on")};
+$("dClose").onclick=close;$("veil").onclick=close;document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+$("copy").onclick=()=>{const t=text();const ok=()=>toast("Pedido copiado. Pégalo en WhatsApp al 933 682 846");
+  const fb=()=>{const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");ok()}catch(e){toast("No se pudo copiar. Escríbenos al 933 682 846")}ta.remove()};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb()};
+let tt;function toast(m){$("toast").textContent=m;$("toast").classList.add("on");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.remove("on"),2400)}
+renderCart();
+</script>
